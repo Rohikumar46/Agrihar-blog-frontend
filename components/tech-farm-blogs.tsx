@@ -1,47 +1,38 @@
+"use client"
+
 import { ArticleCard } from "./article-card"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { useEffect, useState } from "react"
+import { fetchBlogs, toArticleCard } from "@/lib/api"
 
-const techFarmArticles = [
-  {
-    slug: "hydroponics-101-growing-crops-without-soil-in-urban-india",
-    image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=400&h=200&fit=crop",
-    category: "TECH FARMING",
-    categoryColor: "#2d5a27",
-    title: "Hydroponics 101: Growing Crops Without Soil in Urban India",
-    description: "Learn how hydroponics is enabling city dwellers to grow fresh produce in small spaces.",
-    date: "Mar 28, 2026",
-    readTime: "7 min read",
-    badge: "Tech",
-    badgeColor: "#3b82f6"
-  },
-  {
-    slug: "cordyceps-militaris-golden-mushroom-transforming-indian-agriculture",
-    image: "https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=400&h=200&fit=crop",
-    category: "TECH FARMING",
-    categoryColor: "#2d5a27",
-    title: "Cordyceps Militaris: The Golden Mushroom Transforming Indian Agriculture",
-    description: "High-value medicinal mushroom cultivation is becoming a game-changer for small-scale farmers.",
-    date: "Mar 25, 2026",
-    readTime: "5 min read",
-    badge: "Innovative",
-    badgeColor: "#10b981"
-  },
-  {
-    slug: "spirulina-farming-superfood-revolution-in-small-spaces",
-    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=200&fit=crop",
-    category: "TECH FARMING",
-    categoryColor: "#2d5a27",
-    title: "Spirulina Farming: A Superfood Revolution in Small Spaces",
-    description: "How spirulina cultivation offers massive ROI with minimal land requirements — and where to start.",
-    date: "Mar 20, 2026",
-    readTime: "4 min read",
-    badge: "Profitable",
-    badgeColor: "#eab308"
-  }
-]
+const fallbackTechFarmArticles = []
 
 export function TechFarmBlogs() {
+  const [techFarmArticles, setTechFarmArticles] = useState(fallbackTechFarmArticles)
+
+  useEffect(() => {
+    let isMounted = true
+
+    fetchBlogs({ page: 1, limit: 3, q: "tech farming" })
+      .then((blogs) => {
+        if (!isMounted) {
+          return
+        }
+
+        setTechFarmArticles(blogs.map(toArticleCard))
+      })
+      .catch(() => {
+        if (isMounted) {
+          setTechFarmArticles([])
+        }
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
   return (
     <section className="bg-white py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -60,8 +51,8 @@ export function TechFarmBlogs() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {techFarmArticles.map((article, index) => (
-            <ArticleCard key={index} {...article} />
+          {techFarmArticles.map((article) => (
+            <ArticleCard key={article.slug} {...article} />
           ))}
         </div>
 

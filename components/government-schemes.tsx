@@ -1,45 +1,38 @@
+"use client"
+
 import { ArticleCard } from "./article-card"
 import { ArrowRight, Building2 } from "lucide-react"
 import Link from "next/link"
+import { useEffect, useState } from "react"
+import { fetchBlogs, toArticleCard } from "@/lib/api"
 
-const schemeArticles = [
-  {
-    slug: "pm-kisan-samman-nidhi-everything-farmers-need-to-know-2026",
-    image: "https://images.unsplash.com/photo-1589923188651-268a9765e432?w=400&h=200&fit=crop",
-    category: "GOVERNMENT SCHEMES",
-    categoryColor: "#f97316",
-    title: "PM Kisan Samman Nidhi: Everything Farmers Need to Know in 2026",
-    description: "A complete breakdown of India's flagship direct income support scheme — eligibility, process, and...",
-    date: "Mar 16, 2026",
-    readTime: "6 min read",
-    badge: "Essential",
-    badgeColor: "#ef4444"
-  },
-  {
-    slug: "nabard-subsidies-for-agro-tourism-complete-guide",
-    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=200&fit=crop",
-    category: "GOVERNMENT SCHEMES",
-    categoryColor: "#f97316",
-    title: "NABARD Subsidies for Agro-Tourism: A Complete Guide",
-    description: "Unlock NABARD's financial support programs specifically designed for agro-tourism ventures in...",
-    date: "Mar 10, 2026",
-    readTime: "6 min read",
-    badge: "Guide",
-    badgeColor: "#8b5cf6"
-  },
-  {
-    slug: "soil-health-card-scheme-boost-crop-yields-with-data",
-    image: "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=400&h=200&fit=crop",
-    category: "GOVERNMENT SCHEMES",
-    categoryColor: "#f97316",
-    title: "Soil Health Card Scheme: How to Boost Crop Yields with Data",
-    description: "Using government soil health data to make smarter farming decisions — a practical guide for modern...",
-    date: "Mar 10, 2026",
-    readTime: "5 min read"
-  }
-]
+const fallbackSchemeArticles: ReturnType<typeof toArticleCard>[] = []
 
 export function GovernmentSchemes() {
+  const [schemeArticles, setSchemeArticles] = useState(fallbackSchemeArticles)
+
+  useEffect(() => {
+    let isMounted = true
+
+    fetchBlogs({ page: 1, limit: 3, q: "government" })
+      .then((blogs) => {
+        if (!isMounted) {
+          return
+        }
+
+        setSchemeArticles(blogs.map(toArticleCard))
+      })
+      .catch(() => {
+        if (isMounted) {
+          setSchemeArticles([])
+        }
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
   return (
     <section className="bg-white py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -64,8 +57,8 @@ export function GovernmentSchemes() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {schemeArticles.map((article, index) => (
-            <ArticleCard key={index} {...article} />
+          {schemeArticles.map((article) => (
+            <ArticleCard key={article.slug} {...article} />
           ))}
         </div>
       </div>

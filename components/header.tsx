@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import Image from "next/image"
 import { Menu, X } from "lucide-react"
 
 const navLinks = [
-  { label: "Home", href: "/", active: true },
+  { label: "Home", href: "/" },
   { label: "Workshops", href: "/workshops" },
   { label: "Retreats", href: "/retreats" },
   { label: "Join Us", href: "/join-us" },
@@ -14,7 +15,15 @@ const navLinks = [
 ]
 
 export function Header() {
+  const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const enhancedNavLinks = useMemo(() => {
+    return navLinks.map((link) => ({
+      ...link,
+      active: link.href === "/" ? pathname === "/" : pathname.startsWith(link.href),
+    }))
+  }, [pathname])
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-xl">
@@ -32,7 +41,7 @@ export function Header() {
 
           <div className="hidden md:flex items-center gap-8">
             <nav className="flex items-center gap-7 text-sm">
-              {navLinks.map((link) => (
+              {enhancedNavLinks.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
@@ -46,13 +55,6 @@ export function Header() {
                 </Link>
               ))}
             </nav>
-
-            <Link
-              href="/login"
-              className="rounded-full bg-[#2d5a27] px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1e3d1a]"
-            >
-              Login
-            </Link>
           </div>
 
           <button
@@ -67,7 +69,7 @@ export function Header() {
         {isMenuOpen && (
           <div className="animate-in slide-in-from-top-2 duration-200 border-t border-black/5 py-4 md:hidden">
             <nav className="flex flex-col gap-1 rounded-2xl bg-white p-2 shadow-[0_10px_30px_rgba(15,23,42,0.08)]">
-              {navLinks.map((link) => (
+              {enhancedNavLinks.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
@@ -81,15 +83,6 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
-              <div className="mt-2 border-t border-black/5 px-4 pt-4">
-                <Link
-                  href="/login"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="block w-full rounded-full bg-[#2d5a27] px-6 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-[#1e3d1a]"
-                >
-                  Login
-                </Link>
-              </div>
             </nav>
           </div>
         )}

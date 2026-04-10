@@ -1,8 +1,10 @@
 "use client"
 
+import { useEffect, useMemo, useState } from "react"
 import { Search, Feather } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { fetchBlogs, formatDate } from "@/lib/api"
 
 const categories = [
   { name: "All", href: "/" },
@@ -13,6 +15,58 @@ const categories = [
 ]
 
 export function HeroSection() {
+  const [query, setQuery] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [results, setResults] = useState<Array<{ slug: string; title: string; category: string; createdAt: string }>>([])
+
+  const trimmedQuery = useMemo(() => query.trim(), [query])
+
+  useEffect(() => {
+    let isMounted = true
+
+    if (!trimmedQuery) {
+      setResults([])
+      return () => {
+        isMounted = false
+      }
+    }
+
+    setIsLoading(true)
+
+    const timer = setTimeout(() => {
+      fetchBlogs({ page: 1, limit: 6, q: trimmedQuery })
+        .then((blogs) => {
+          if (!isMounted) {
+            return
+          }
+
+          setResults(
+            blogs.map((blog) => ({
+              slug: blog.slug,
+              title: blog.title,
+              category: blog.category,
+              createdAt: blog.createdAt,
+            }))
+          )
+        })
+        .catch(() => {
+          if (isMounted) {
+            setResults([])
+          }
+        })
+        .finally(() => {
+          if (isMounted) {
+            setIsLoading(false)
+          }
+        })
+    }, 250)
+
+    return () => {
+      isMounted = false
+      clearTimeout(timer)
+    }
+  }, [trimmedQuery])
+
   return (
     <section className="relative isolate overflow-hidden bg-[#355f2d]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_35%),radial-gradient(circle_at_80%_20%,rgba(249,115,22,0.22),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.04),transparent_32%)]" />
@@ -40,8 +94,39 @@ export function HeroSection() {
               <input
                 type="text"
                 placeholder="Search articles..."
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
                 className="w-full rounded-full bg-white py-3 pl-12 pr-4 text-gray-900 shadow-[0_12px_30px_rgba(15,23,42,0.12)] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f97316]"
               />
+
+              {trimmedQuery && (
+                <div className="absolute z-30 mt-2 w-full overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.16)]">
+                  {isLoading && <p className="px-4 py-3 text-sm text-slate-500">Searching...</p>}
+
+                  {!isLoading && results.length === 0 && (
+                    <p className="px-4 py-3 text-sm text-slate-500">No results found</p>
+                  )}
+
+                  {!isLoading && results.length > 0 && (
+                    <ul className="divide-y divide-black/5">
+                      {results.map((result) => (
+                        <li key={result.slug}>
+                          <Link
+                            href={`/blog/${result.slug}`}
+                            className="block px-4 py-3 transition-colors hover:bg-[#f5f8f3]"
+                            onClick={() => setQuery("")}
+                          >
+                            <p className="text-sm font-medium text-slate-900 line-clamp-1">{result.title}</p>
+                            <p className="mt-1 text-xs uppercase tracking-wide text-slate-500">
+                              {result.category.replace(/-/g, " ")} • {formatDate(result.createdAt)}
+                            </p>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="grid max-w-md grid-cols-3 gap-4 pt-2 text-white">
