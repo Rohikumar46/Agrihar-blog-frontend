@@ -4,17 +4,22 @@ import { ArticleCard } from "./article-card"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { fetchBlogs, toArticleCard } from "@/lib/api"
+import { fetchPublicBlogs, toArticleCard } from "@/lib/api"
+import { ContentState } from "@/components/public/content-state"
 
 const fallbackTechFarmArticles = []
 
 export function TechFarmBlogs() {
   const [techFarmArticles, setTechFarmArticles] = useState(fallbackTechFarmArticles)
+  const [loading, setLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
 
   useEffect(() => {
     let isMounted = true
+    setLoading(true)
+    setHasError(false)
 
-    fetchBlogs({ page: 1, limit: 3, q: "tech farming" })
+    fetchPublicBlogs({ page: 1, limit: 3, category: "tech-farming" })
       .then((blogs) => {
         if (!isMounted) {
           return
@@ -25,6 +30,12 @@ export function TechFarmBlogs() {
       .catch(() => {
         if (isMounted) {
           setTechFarmArticles([])
+          setHasError(true)
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setLoading(false)
         }
       })
 
@@ -50,11 +61,19 @@ export function TechFarmBlogs() {
           </Link>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {techFarmArticles.map((article) => (
-            <ArticleCard key={article.slug} {...article} />
-          ))}
-        </div>
+        {loading ? (
+          <ContentState kind="loading" message="Loading tech farm blogs..." />
+        ) : hasError ? (
+          <ContentState kind="error" message="Unable to load tech farm blogs right now." />
+        ) : techFarmArticles.length === 0 ? (
+          <ContentState kind="empty" message="No approved tech farm blogs available yet." />
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {techFarmArticles.map((article) => (
+              <ArticleCard key={article.slug} {...article} />
+            ))}
+          </div>
+        )}
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-[22px] bg-[#2f5d29] px-6 py-5 shadow-[0_14px_30px_rgba(15,23,42,0.08)] md:flex-row md:px-7">
           <div className="flex items-center gap-4">

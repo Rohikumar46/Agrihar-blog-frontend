@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Search, Feather } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { fetchBlogs, formatDate } from "@/lib/api"
+import { fetchPublicBlogs, formatDate } from "@/lib/api"
 
 const categories = [
   { name: "All", href: "/" },
@@ -34,7 +34,7 @@ export function HeroSection() {
     setIsLoading(true)
 
     const timer = setTimeout(() => {
-      fetchBlogs({ page: 1, limit: 6, q: trimmedQuery })
+      fetchPublicBlogs({ page: 1, limit: 6, q: trimmedQuery })
         .then((blogs) => {
           if (!isMounted) {
             return

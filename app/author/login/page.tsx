@@ -7,13 +7,12 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { loginAdmin } from "@/lib/api"
-import { setStoredToken } from "@/lib/auth"
+import { authorAccess } from "@/lib/api"
+import { setStoredAuthorToken } from "@/lib/author-auth"
 
-export default function AdminLoginPage() {
+export default function AuthorLoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
@@ -23,11 +22,11 @@ export default function AdminLoginPage() {
     setLoading(true)
 
     try {
-      const response = await loginAdmin(email.trim(), password)
-      setStoredToken(response.token)
-      router.push("/admin")
+      const response = await authorAccess(email.trim())
+      setStoredAuthorToken(response.token)
+      router.push("/author")
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Login failed")
+      setError(submitError instanceof Error ? submitError.message : "Access failed")
     } finally {
       setLoading(false)
     }
@@ -38,14 +37,16 @@ export default function AdminLoginPage() {
       <Header />
       <main className="mx-auto max-w-xl px-4 py-12 sm:py-16">
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_16px_40px_rgba(15,23,42,0.08)] sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2d5a27]">Super Admin</p>
-          <h1 className="mt-2 text-2xl font-bold text-slate-900">Sign in to manage blog posts</h1>
-          <p className="mt-2 text-sm text-slate-600">Use your admin email and password to access the dashboard.</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2d5a27]">Author Portal</p>
+          <h1 className="mt-2 text-2xl font-bold text-slate-900">Access your author dashboard</h1>
+          <p className="mt-2 text-sm text-slate-600">
+            Enter your email to view and manage your blog submissions. No password required.
+          </p>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>
               <label htmlFor="email" className="mb-1 block text-sm font-medium text-slate-700">
-                Email
+                Email address
               </label>
               <Input
                 id="email"
@@ -53,21 +54,7 @@ export default function AdminLoginPage() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 autoComplete="email"
-                placeholder="admin@agrihar.com"
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="password" className="mb-1 block text-sm font-medium text-slate-700">
-                Password
-              </label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                autoComplete="current-password"
+                placeholder="you@example.com"
                 required
               />
             </div>
@@ -75,14 +62,14 @@ export default function AdminLoginPage() {
             {error && <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
 
             <Button type="submit" className="w-full bg-[#2d5a27] hover:bg-[#1e3d1a]" disabled={loading}>
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? "Accessing..." : "Access Dashboard"}
             </Button>
           </form>
 
           <p className="mt-5 text-sm text-slate-600">
-            Are you an author?{" "}
-            <Link href="/author/login" className="font-medium text-[#f97316] hover:text-[#ea580c]">
-              Access author portal
+            Are you an admin?{" "}
+            <Link href="/admin/login" className="font-medium text-[#f97316] hover:text-[#ea580c]">
+              Sign in to admin panel
             </Link>
           </p>
         </div>

@@ -4,17 +4,22 @@ import { ArticleCard } from "./article-card"
 import { ArrowRight, Leaf } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { fetchBlogs, toArticleCard } from "@/lib/api"
+import { fetchPublicBlogs, toArticleCard } from "@/lib/api"
+import { ContentState } from "@/components/public/content-state"
 
 const fallbackRecentArticles = []
 
 export function RecentArticles() {
   const [recentArticles, setRecentArticles] = useState(fallbackRecentArticles)
+  const [loading, setLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
 
   useEffect(() => {
     let isMounted = true
+    setLoading(true)
+    setHasError(false)
 
-    fetchBlogs({ page: 1, limit: 3 })
+    fetchPublicBlogs({ page: 1, limit: 3, category: 'recent-blogs' })
       .then((blogs) => {
         if (!isMounted) {
           return
@@ -25,6 +30,12 @@ export function RecentArticles() {
       .catch(() => {
         if (isMounted) {
           setRecentArticles([])
+          setHasError(true)
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setLoading(false)
         }
       })
 
@@ -50,11 +61,19 @@ export function RecentArticles() {
           </Link>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {recentArticles.map((article) => (
-            <ArticleCard key={article.slug} {...article} />
-          ))}
-        </div>
+        {loading ? (
+          <ContentState kind="loading" message="Loading recent articles..." />
+        ) : hasError ? (
+          <ContentState kind="error" message="Unable to load recent articles right now." />
+        ) : recentArticles.length === 0 ? (
+          <ContentState kind="empty" message="No approved recent articles available yet." />
+        ) : (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {recentArticles.map((article) => (
+              <ArticleCard key={article.slug} {...article} />
+            ))}
+          </div>
+        )}
 
         <div className="mt-10 flex justify-center sm:mt-12">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2d5a27]/10">

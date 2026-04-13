@@ -4,17 +4,22 @@ import { ArticleCard } from "./article-card"
 import { ArrowRight, Building2 } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { fetchBlogs, toArticleCard } from "@/lib/api"
+import { fetchPublicBlogs, toArticleCard } from "@/lib/api"
+import { ContentState } from "@/components/public/content-state"
 
 const fallbackSchemeArticles: ReturnType<typeof toArticleCard>[] = []
 
 export function GovernmentSchemes() {
   const [schemeArticles, setSchemeArticles] = useState(fallbackSchemeArticles)
+  const [loading, setLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
 
   useEffect(() => {
     let isMounted = true
+    setLoading(true)
+    setHasError(false)
 
-    fetchBlogs({ page: 1, limit: 3, q: "government" })
+    fetchPublicBlogs({ page: 1, limit: 3, category: "government-schemes" })
       .then((blogs) => {
         if (!isMounted) {
           return
@@ -25,6 +30,12 @@ export function GovernmentSchemes() {
       .catch(() => {
         if (isMounted) {
           setSchemeArticles([])
+          setHasError(true)
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setLoading(false)
         }
       })
 
@@ -56,11 +67,19 @@ export function GovernmentSchemes() {
           </Link>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {schemeArticles.map((article) => (
-            <ArticleCard key={article.slug} {...article} />
-          ))}
-        </div>
+        {loading ? (
+          <ContentState kind="loading" message="Loading government scheme blogs..." />
+        ) : hasError ? (
+          <ContentState kind="error" message="Unable to load government scheme blogs right now." />
+        ) : schemeArticles.length === 0 ? (
+          <ContentState kind="empty" message="No approved government scheme blogs available yet." />
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {schemeArticles.map((article) => (
+              <ArticleCard key={article.slug} {...article} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )

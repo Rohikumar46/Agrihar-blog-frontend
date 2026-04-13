@@ -7,8 +7,9 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Newsletter } from "@/components/newsletter"
 import { ArticleCard } from "@/components/article-card"
+import { ContentState } from "@/components/public/content-state"
 import { ArrowLeft, Leaf, Building2, Cpu, MapPin, BookOpen } from "lucide-react"
-import { fetchBlogs, toArticleCard } from "@/lib/api"
+import { fetchPublicBlogs, toArticleCard } from "@/lib/api"
 
 const categoryInfo: Record<string, {
   title: string
@@ -18,13 +19,13 @@ const categoryInfo: Record<string, {
   bgColor: string
   queryCategory: string
 }> = {
-  "agro-tourism": {
-    title: "Agro Tourism",
-    description: "Explore farm stays, rural experiences, and sustainable tourism in agriculture",
-    icon: <MapPin className="w-6 h-6" />,
-    color: "#f97316",
-    bgColor: "bg-[#f97316]/10",
-    queryCategory: "agro tourism",
+  "recent-blogs": {
+    title: "Recent Blogs",
+    description: "Latest articles from our blog",
+    icon: <Leaf className="w-6 h-6" />,
+    color: "#2d5a27",
+    bgColor: "bg-[#2d5a27]/10",
+    queryCategory: "recent-blogs",
   },
   "tech-farming": {
     title: "Tech Farm Blogs",
@@ -32,7 +33,7 @@ const categoryInfo: Record<string, {
     icon: <Cpu className="w-6 h-6" />,
     color: "#2d5a27",
     bgColor: "bg-[#2d5a27]/10",
-    queryCategory: "tech farming",
+    queryCategory: "tech-farming",
   },
   "government-schemes": {
     title: "Government Schemes",
@@ -40,7 +41,15 @@ const categoryInfo: Record<string, {
     icon: <Building2 className="w-6 h-6" />,
     color: "#f97316",
     bgColor: "bg-[#f97316]/10",
-    queryCategory: "government scheme",
+    queryCategory: "government-schemes",
+  },
+  "agro-tourism": {
+    title: "Agro Tourism",
+    description: "Explore farm stays, rural experiences, and sustainable tourism in agriculture",
+    icon: <MapPin className="w-6 h-6" />,
+    color: "#f97316",
+    bgColor: "bg-[#f97316]/10",
+    queryCategory: "agro-tourism",
   },
   "workshops": {
     title: "Workshops",
@@ -48,7 +57,7 @@ const categoryInfo: Record<string, {
     icon: <BookOpen className="w-6 h-6" />,
     color: "#2d5a27",
     bgColor: "bg-[#2d5a27]/10",
-    queryCategory: "workshop",
+    queryCategory: "workshops",
   },
 }
 
@@ -70,11 +79,15 @@ export default function CategoryPage() {
   }, [categorySlug])
 
   const [articles, setArticles] = useState<ReturnType<typeof toArticleCard>[]>([])
+  const [loading, setLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
 
   useEffect(() => {
     let isMounted = true
+    setLoading(true)
+    setHasError(false)
 
-    fetchBlogs({ page: 1, limit: 30, q: info.queryCategory })
+    fetchPublicBlogs({ page: 1, limit: 30, category: info.queryCategory })
       .then((blogs) => {
         if (!isMounted) {
           return
@@ -85,6 +98,12 @@ export default function CategoryPage() {
       .catch(() => {
         if (isMounted) {
           setArticles([])
+          setHasError(true)
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setLoading(false)
         }
       })
 
@@ -130,16 +149,18 @@ export default function CategoryPage() {
 
         <section className="py-12 sm:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {articles.length > 0 ? (
+            {loading ? (
+              <ContentState kind="loading" message="Loading articles..." />
+            ) : hasError ? (
+              <ContentState kind="error" message="Unable to load this category right now." />
+            ) : articles.length > 0 ? (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {articles.map((article) => (
                   <ArticleCard key={article.slug} {...article} />
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16">
-                <p className="text-gray-500">No articles found in this category yet.</p>
-              </div>
+              <ContentState kind="empty" message="No approved articles found in this category yet." />
             )}
           </div>
         </section>

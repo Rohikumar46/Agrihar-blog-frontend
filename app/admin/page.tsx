@@ -7,8 +7,15 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { clearStoredToken, getStoredToken } from "@/lib/auth"
 import { createBlog, deleteBlog, fetchBlogs, fetchMe, formatDate, type ApiBlog, updateBlog } from "@/lib/api"
+
+const BLOG_CATEGORIES = [
+  { value: "recent-blogs", label: "Recent Blogs" },
+  { value: "tech-farming", label: "Tech Farming" },
+  { value: "government-schemes", label: "Government Schemes" },
+]
 
 export default function AdminPage() {
   const router = useRouter()
@@ -20,7 +27,7 @@ export default function AdminPage() {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [excerpt, setExcerpt] = useState("")
-  const [category, setCategory] = useState("general")
+  const [category, setCategory] = useState("recent-blogs")
   const [tags, setTags] = useState("")
   const [imageUrl, setImageUrl] = useState("")
   const [isPublished, setIsPublished] = useState(true)
@@ -45,7 +52,7 @@ export default function AdminPage() {
     setTitle("")
     setContent("")
     setExcerpt("")
-    setCategory("general")
+    setCategory("recent-blogs")
     setTags("")
     setImageUrl("")
     setIsPublished(true)
@@ -131,7 +138,7 @@ export default function AdminPage() {
     setTitle(blog.title || "")
     setContent(blog.content || "")
     setExcerpt(blog.excerpt || "")
-    setCategory(blog.category || "general")
+    setCategory(blog.category || "recent-blogs")
     setTags((blog.tags || []).join(", "))
     setImageUrl(blog.imageUrl || "")
     setIsPublished(Boolean(blog.isPublished))
@@ -200,6 +207,9 @@ export default function AdminPage() {
             <Link href="/" className="text-sm font-medium text-[#f97316] hover:text-[#ea580c]">
               View site
             </Link>
+            <Link href="/admin/moderation" className="text-sm font-medium text-[#2d5a27] hover:text-[#1e3d1a]">
+              Moderation queue
+            </Link>
             <Button variant="outline" onClick={handleLogout}>
               Logout
             </Button>
@@ -213,12 +223,18 @@ export default function AdminPage() {
             <h2 className="text-lg font-semibold text-slate-900">{isEditing ? "Edit Post" : "Create New Post"}</h2>
             <form onSubmit={handleCreateOrUpdate} className="mt-4 space-y-3">
               <Input placeholder="Title" value={title} onChange={(event) => setTitle(event.target.value)} required />
-              <Input
-                placeholder="Category (example: tech-farming)"
-                value={category}
-                onChange={(event) => setCategory(event.target.value)}
-                required
-              />
+              <Select value={category} onValueChange={setCategory}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {BLOG_CATEGORIES.map((cat) => (
+                    <SelectItem key={cat.value} value={cat.value}>
+                      {cat.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <Input
                 placeholder="Tags (comma separated)"
                 value={tags}
