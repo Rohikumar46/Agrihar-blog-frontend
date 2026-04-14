@@ -11,7 +11,7 @@ import { FileUploadZone } from "@/components/submission/file-upload-zone"
 import { createAuthorBlog } from "@/lib/api"
 import { getStoredAuthorToken } from "@/lib/author-auth"
 import { BLOG_CATEGORIES } from "@/components/submission/types"
-import { saveAuthorPreviewDraft } from "@/lib/author-preview"
+import { saveAuthorPreviewDraft, loadAuthorPreviewDraft } from "@/lib/author-preview"
 import { ChevronDown } from "lucide-react"
 
 export default function NewBlogPage() {
@@ -36,6 +36,20 @@ export default function NewBlogPage() {
       return
     }
     setToken(stored)
+
+    // Restore form data if returning from preview
+    const draft = loadAuthorPreviewDraft()
+    if (draft?.values) {
+      const v = draft.values
+      if (v.title)         setTitle(v.title)
+      if (v.subTitle)      setSubTitle(v.subTitle)
+      if (v.authorName)    setAuthorName(v.authorName)
+      if (v.category)      setCategory(v.category)
+      if (v.authorLinkedIn) setAuthorLinkedIn(v.authorLinkedIn)
+      if (v.imageUrl)      setImageUrl(v.imageUrl)
+      if (v.bodyImage)     setBodyImage(v.bodyImage)
+      if (v.content)       setContent(v.content)
+    }
   }, [router])
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -66,6 +80,7 @@ export default function NewBlogPage() {
     saveAuthorPreviewDraft({
       values: {
         title,
+        subTitle,
         imageUrl,
         bodyImage,
         authorName,
