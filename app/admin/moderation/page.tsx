@@ -7,7 +7,6 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ModerationPreview } from '@/components/moderation/moderation-preview';
 import { PendingBlogList } from '@/components/moderation/pending-blog-list';
 import {
   approvePendingBlog,
@@ -17,6 +16,7 @@ import {
   fetchMe,
 } from '@/lib/api';
 import { clearStoredToken, getStoredToken } from '@/lib/auth';
+import { saveModerationPreview } from '@/lib/moderation-preview';
 
 export default function AdminModerationPage() {
   const router = useRouter();
@@ -25,7 +25,6 @@ export default function AdminModerationPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [pendingBlogs, setPendingBlogs] = useState<ModerationBlog[]>([]);
-  const [selectedBlog, setSelectedBlog] = useState<ModerationBlog | null>(null);
   const [actioningId, setActioningId] = useState('');
   const [rejectBlogId, setRejectBlogId] = useState('');
   const [rejectMessage, setRejectMessage] = useState('');
@@ -33,11 +32,6 @@ export default function AdminModerationPage() {
   async function loadPending(authToken: string) {
     const blogs = await fetchPendingBlogs(authToken);
     setPendingBlogs(blogs);
-
-    if (selectedBlog) {
-      const nextSelected = blogs.find((item) => item._id === selectedBlog._id) || null;
-      setSelectedBlog(nextSelected);
-    }
   }
 
   useEffect(() => {
@@ -55,7 +49,6 @@ export default function AdminModerationPage() {
         if (response.user.role !== 'admin') {
           throw new Error('Admin access required');
         }
-
         return loadPending(storedToken);
       })
       .catch((authError) => {
@@ -68,6 +61,11 @@ export default function AdminModerationPage() {
       });
   }, [router]);
 
+  function handlePreview(blog: ModerationBlog) {
+    saveModerationPreview(blog);
+    router.push('/admin/moderation/preview');
+  }
+
   async function handleApprove(id: string) {
     setError('');
     setSuccess('');
@@ -76,9 +74,6 @@ export default function AdminModerationPage() {
     try {
       await approvePendingBlog(token, id);
       setPendingBlogs((prev) => prev.filter((blog) => blog._id !== id));
-      if (selectedBlog?._id === id) {
-        setSelectedBlog(null);
-      }
       setSuccess('Blog approved successfully.');
     } catch (actionError) {
       setError(actionError instanceof Error ? actionError.message : 'Failed to approve blog');
@@ -101,9 +96,6 @@ export default function AdminModerationPage() {
     try {
       await rejectPendingBlog(token, rejectBlogId, rejectMessage.trim());
       setPendingBlogs((prev) => prev.filter((blog) => blog._id !== rejectBlogId));
-      if (selectedBlog?._id === rejectBlogId) {
-        setSelectedBlog(null);
-      }
       setRejectBlogId('');
       setRejectMessage('');
       setSuccess('Blog rejected successfully.');
@@ -121,7 +113,7 @@ export default function AdminModerationPage() {
   return (
     <div className="min-h-screen bg-[#f7fbf5]">
       <Header />
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
+      <main className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2d5a27]">Admin Moderation</p>
@@ -161,26 +153,18 @@ export default function AdminModerationPage() {
           </div>
         )}
 
-        <section className="grid gap-6 lg:grid-cols-[1fr_1.15fr]">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
-            <h2 className="mb-4 text-lg font-semibold text-slate-900">Pending List</h2>
-            <PendingBlogList
-              blogs={pendingBlogs}
-              actioningId={actioningId}
-              onPreview={(blog) => setSelectedBlog(blog)}
-              onApprove={handleApprove}
-              onStartReject={(id) => {
-                setRejectBlogId(id);
-                setRejectMessage('');
-              }}
-            />
-          </div>
-
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
-            <h2 className="mb-4 text-lg font-semibold text-slate-900">Preview</h2>
-            <ModerationPreview blog={selectedBlog} />
-          </div>
-        </section>
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
+          <PendingBlogList
+            blogs={pendingBlogs}
+            actioningId={actioningId}
+            onPreview={handlePreview}
+            onApprove={handleApprove}
+            onStartReject={(id) => {
+              setRejectBlogId(id);
+              setRejectMessage('');
+            }}
+          />
+        </div>
       </main>
       <Footer />
     </div>

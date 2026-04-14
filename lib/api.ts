@@ -10,6 +10,8 @@ export interface ApiBlog {
   category: string;
   tags: string[];
   imageUrl: string;
+  previewImage?: string;
+  bodyImage?: string;
   author: string;
   authorEmail?: string;
   authorName?: string;
@@ -27,6 +29,7 @@ export type ModerationBlog = ApiBlog;
 export interface PublicSubmitPayload {
   title: string;
   imageUrl: string;
+  bodyImage?: string;
   authorName: string;
   authorImage?: string;
   authorLinkedIn: string;
@@ -41,6 +44,7 @@ export interface AuthorBlogPayload {
   subTitle?: string;
   category?: string;
   imageUrl?: string;
+  bodyImage?: string;
   authorImage?: string;
   authorLinkedIn?: string;
   excerpt?: string;
@@ -53,6 +57,7 @@ export interface CreateBlogPayload {
   category?: string;
   tags?: string[];
   imageUrl?: string;
+  bodyImage?: string;
   author?: string;
   isPublished?: boolean;
 }
@@ -195,10 +200,12 @@ export async function fetchPublicBlogBySlug(slug: string): Promise<ApiBlog | nul
 }
 
 export async function submitPublicBlog(payload: PublicSubmitPayload): Promise<ApiBlog> {
+  const body: PublicSubmitPayload = { ...payload }
+  if (!body.bodyImage) delete body.bodyImage
   const response = await fetchJson<{ data: ApiBlog }>('/blog/submit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(body),
   });
   return response.data;
 }
@@ -354,9 +361,15 @@ export function estimateReadTime(content: string) {
 }
 
 export function toArticleCard(blog: ApiBlog) {
+  const previewImage =
+    blog.previewImage ||
+    blog.bodyImage ||
+    blog.imageUrl ||
+    'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&h=200&fit=crop';
+
   return {
     slug: blog.slug,
-    image: blog.imageUrl || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&h=200&fit=crop',
+    image: previewImage,
     category: formatCategory(blog.category),
     categoryColor: '#2d5a27',
     title: blog.title,

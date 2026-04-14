@@ -102,12 +102,6 @@ export function Footer() {
               <p className="mt-2 text-sm text-[#2d5a27]/70">
                 © Agstal Services Pvt Ltd, 2024
               </p>
-              <Link
-                href="/admin/login"
-                className="mt-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#2d5a27]/45 transition-colors hover:text-[#2d5a27]/75"
-              >
-                Admin Access
-              </Link>
             </div>
 
             <div className="flex items-center gap-3">

@@ -128,7 +128,7 @@ export default function CategoryPage() {
             </Link>
 
             <div className="flex items-center gap-4 mb-4">
-              <div className={`w-14 h-14 rounded-2xl ${info.bgColor} flex items-center justify-center`} style={{ color: info.color }}>
+              <div className="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center text-white">
                 {info.icon}
               </div>
               <div>
@@ -138,12 +138,6 @@ export default function CategoryPage() {
 
             <p className="text-white/80 text-lg max-w-2xl mt-4">{info.description}</p>
 
-            <div className="flex items-center gap-6 mt-8">
-              <div className="flex items-center gap-2">
-                <span className="text-3xl font-bold text-white">{articles.length}</span>
-                <span className="text-white/70 text-sm">Articles</span>
-              </div>
-            </div>
           </div>
         </section>
 

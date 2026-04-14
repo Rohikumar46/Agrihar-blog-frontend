@@ -29,7 +29,7 @@ export function PendingBlogList({ blogs, actioningId, onPreview, onApprove, onSt
             </div>
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" onClick={() => onPreview(blog)}>
-                Preview
+                Full Preview →
               </Button>
               <Button
                 size="sm"

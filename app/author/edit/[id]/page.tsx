@@ -7,9 +7,11 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { FileUploadZone } from "@/components/submission/file-upload-zone"
 import { fetchMyBlog, updateAuthorBlog } from "@/lib/api"
 import { getStoredAuthorToken } from "@/lib/author-auth"
 import { BLOG_CATEGORIES } from "@/components/submission/types"
+import { saveAuthorPreviewDraft } from "@/lib/author-preview"
 import { ChevronDown } from "lucide-react"
 
 export default function EditBlogPage() {
@@ -27,6 +29,7 @@ export default function EditBlogPage() {
   const [category, setCategory] = useState("recent-blogs")
   const [authorLinkedIn, setAuthorLinkedIn] = useState("")
   const [imageUrl, setImageUrl] = useState("")
+  const [bodyImage, setBodyImage] = useState("")
   const [content, setContent] = useState("")
 
   useEffect(() => {
@@ -45,6 +48,7 @@ export default function EditBlogPage() {
         setCategory(blog.category || "recent-blogs")
         setAuthorLinkedIn(blog.authorLinkedIn || "")
         setImageUrl(blog.imageUrl || "")
+        setBodyImage(blog.bodyImage || "")
         setContent(blog.content)
         setAdminMessage(blog.adminMessage || "")
       })
@@ -65,6 +69,7 @@ export default function EditBlogPage() {
         category: category.trim() || "general",
         authorLinkedIn: authorLinkedIn.trim(),
         imageUrl: imageUrl.trim(),
+        bodyImage: bodyImage || undefined,
         content: content.trim(),
       })
       router.push("/author")
@@ -73,6 +78,23 @@ export default function EditBlogPage() {
     } finally {
       setSubmitting(false)
     }
+  }
+
+  function handlePreview() {
+    saveAuthorPreviewDraft({
+      values: {
+        title,
+        imageUrl,
+        bodyImage,
+        authorName,
+        authorImage: "",
+        authorLinkedIn,
+        content,
+        category,
+      },
+      returnPath: `/author/edit/${id}`,
+    })
+    router.push("/author/preview")
   }
 
   if (loading) {
@@ -145,10 +167,19 @@ export default function EditBlogPage() {
               <Input value={authorLinkedIn} onChange={(e) => setAuthorLinkedIn(e.target.value)} placeholder="https://linkedin.com/in/..." />
             </div>
 
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">Cover Image URL</label>
-              <Input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://..." />
-            </div>
+            <FileUploadZone
+              label="Cover image"
+              value={imageUrl}
+              onChange={setImageUrl}
+              hint="Appears as the card thumbnail and hero image."
+            />
+
+            <FileUploadZone
+              label="Body image (optional)"
+              value={bodyImage}
+              onChange={setBodyImage}
+              hint="Will be placed in the middle of your blog content."
+            />
 
             <div>
               <label className="mb-1 block text-sm font-medium text-slate-700">Content *</label>
@@ -165,6 +196,9 @@ export default function EditBlogPage() {
             {error && <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
 
             <div className="flex gap-2">
+              <Button type="button" variant="outline" onClick={handlePreview}>
+                Preview
+              </Button>
               <Button type="submit" className="bg-[#2d5a27] hover:bg-[#1e3d1a]" disabled={submitting}>
                 {submitting ? "Saving..." : "Save & Re-submit"}
               </Button>

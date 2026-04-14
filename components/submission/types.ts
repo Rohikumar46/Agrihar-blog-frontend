@@ -1,6 +1,7 @@
 export interface SubmissionFormState {
   title: string;
-  imageUrl: string;
+  imageUrl: string;       // cover / card image (data-url)
+  bodyImage: string;      // optional mid-body image (data-url)
   authorName: string;
   authorImage: string;
   authorLinkedIn: string;
@@ -19,6 +20,7 @@ export const BLOG_CATEGORIES = [
 export const initialSubmissionState: SubmissionFormState = {
   title: '',
   imageUrl: '',
+  bodyImage: '',
   authorName: '',
   authorImage: '',
   authorLinkedIn: '',

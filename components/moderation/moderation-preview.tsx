@@ -16,11 +16,17 @@ export function ModerationPreview({ blog }: ModerationPreviewProps) {
     );
   }
 
+  const previewImage =
+    blog.previewImage ||
+    blog.bodyImage ||
+    blog.imageUrl ||
+    'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&h=700&fit=crop';
+
   return (
     <article className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
       <div className="relative h-56 w-full">
         <Image
-          src={blog.imageUrl || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&h=700&fit=crop'}
+          src={previewImage}
           alt={blog.title}
           fill
           className="object-cover"

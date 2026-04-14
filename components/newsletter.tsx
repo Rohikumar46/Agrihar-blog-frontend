@@ -1,52 +1,74 @@
 "use client"
 
-import { Mail } from "lucide-react"
 import { useState } from "react"
+import { Mail, CheckCircle2 } from "lucide-react"
 
 export function Newsletter() {
   const [email, setEmail] = useState("")
+  const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    // Handle newsletter subscription
-    console.log("Subscribing:", email)
-    setEmail("")
+    if (!email.trim()) return
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setSubmitted(true)
+    }, 800)
   }
 
   return (
-    <section className="bg-[#fbfbf7] py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-[28px] bg-[#f5efe5] px-6 py-10 text-center shadow-[0_10px_30px_rgba(15,23,42,0.04)] ring-1 ring-black/5 md:px-12 md:py-14">
-          <div className="mb-6 flex justify-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#f97316]">
-              <Mail className="w-7 h-7 text-white" />
-            </div>
+    <section className="bg-[#f4f9f2] py-10 sm:py-12">
+      <div className="mx-auto max-w-2xl px-4 text-center sm:px-6">
+
+        {submitted ? (
+          <div className="flex flex-col items-center gap-3">
+            <CheckCircle2 className="h-10 w-10 text-[#2d5a27]" />
+            <p className="text-base font-semibold text-slate-800">You&apos;re subscribed!</p>
+            <p className="text-sm text-slate-500">Thanks for joining. Expect your first newsletter soon.</p>
+            <button
+              onClick={() => { setSubmitted(false); setEmail("") }}
+              className="mt-1 text-sm text-[#2d5a27] underline underline-offset-2 hover:text-[#1e3d1a]"
+            >
+              Subscribe another email
+            </button>
           </div>
+        ) : (
+          <>
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#2d5a27]">Newsletter</p>
+            <h2 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">Stay in the loop</h2>
+            <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-slate-500">
+              Weekly farming insights, government scheme alerts, and agri-tech news — delivered to your inbox.
+            </p>
 
-          <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">Stay in the Loop</h2>
-          <p className="mx-auto mt-3 max-w-xl text-slate-600">
-            Get the latest farming insights, government scheme updates, and agro-tourism stories delivered to your inbox.
-          </p>
-
-          <form onSubmit={handleSubmit} className="mx-auto mt-8 max-w-lg">
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <form onSubmit={handleSubmit} className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email address"
-                className="flex-1 rounded-full border border-black/5 bg-white px-5 py-3 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f97316] focus:border-transparent"
+                placeholder="you@example.com"
                 required
+                className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#2d5a27] focus:outline-none focus:ring-2 focus:ring-[#2d5a27]/15 transition-all"
               />
               <button
                 type="submit"
-                className="whitespace-nowrap rounded-full bg-[#2d5a27] px-8 py-3 font-medium text-white transition-colors hover:bg-[#1e3d1a]"
+                disabled={loading}
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#2d5a27] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1e3d1a] disabled:opacity-70 whitespace-nowrap"
               >
-                Subscribe
+                {loading ? (
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                ) : (
+                  <Mail className="h-4 w-4" />
+                )}
+                {loading ? "Subscribing..." : "Subscribe"}
               </button>
-            </div>
-          </form>
-        </div>
+            </form>
+
+            <p className="mt-4 text-xs text-slate-400">No spam. Unsubscribe anytime.</p>
+          </>
+        )}
+
       </div>
     </section>
   )

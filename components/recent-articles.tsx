@@ -1,13 +1,13 @@
 "use client"
 
 import { ArticleCard } from "./article-card"
-import { ArrowRight, Leaf } from "lucide-react"
+import { ArrowRight, Newspaper } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { fetchPublicBlogs, toArticleCard } from "@/lib/api"
 import { ContentState } from "@/components/public/content-state"
 
-const fallbackRecentArticles = []
+const fallbackRecentArticles: ReturnType<typeof toArticleCard>[] = []
 
 export function RecentArticles() {
   const [recentArticles, setRecentArticles] = useState(fallbackRecentArticles)
@@ -19,12 +19,9 @@ export function RecentArticles() {
     setLoading(true)
     setHasError(false)
 
-    fetchPublicBlogs({ page: 1, limit: 3, category: 'recent-blogs' })
+    fetchPublicBlogs({ page: 1, limit: 3 })
       .then((blogs) => {
-        if (!isMounted) {
-          return
-        }
-
+        if (!isMounted) return
         setRecentArticles(blogs.map(toArticleCard))
       })
       .catch(() => {
@@ -34,33 +31,37 @@ export function RecentArticles() {
         }
       })
       .finally(() => {
-        if (isMounted) {
-          setLoading(false)
-        }
+        if (isMounted) setLoading(false)
       })
 
-    return () => {
-      isMounted = false
-    }
+    return () => { isMounted = false }
   }, [])
 
   return (
-    <section className="bg-white py-14 sm:py-16">
+    <section className="bg-white py-10 sm:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-6 flex flex-col justify-between gap-4 sm:mb-8 sm:flex-row sm:items-center">
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#f97316]">Latest</span>
-            <h2 className="mt-1 text-2xl font-bold text-slate-900 sm:text-3xl">Recent Articles</h2>
-            <p className="mt-2 text-slate-600">Fresh perspectives on farming, travel, and rural living</p>
+
+        {/* ── Section header ── */}
+        <div className="mb-7 flex items-end justify-between gap-4">
+          <div className="flex items-start gap-4">
+            <div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#f97316]/10">
+              <Newspaper className="h-5 w-5 text-[#f97316]" />
+            </div>
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#f97316]">Latest</span>
+              <h2 className="mt-0.5 text-2xl font-bold text-slate-900 sm:text-3xl">Recent Articles</h2>
+              <p className="mt-1.5 text-sm text-slate-500">Fresh perspectives on farming, travel, and rural living</p>
+            </div>
           </div>
-          <Link 
+          <Link
             href="/blog"
-            className="flex shrink-0 items-center gap-2 font-medium text-[#f97316] transition-colors hover:text-[#ea580c]"
+            className="hidden shrink-0 items-center gap-1.5 rounded-full border border-[#f97316]/25 px-4 py-2 text-sm font-medium text-[#f97316] transition-all hover:bg-[#f97316] hover:text-white md:inline-flex"
           >
-            View all <ArrowRight className="w-4 h-4" />
+            View all <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
+        {/* ── Content ── */}
         {loading ? (
           <ContentState kind="loading" message="Loading recent articles..." />
         ) : hasError ? (
@@ -75,10 +76,14 @@ export function RecentArticles() {
           </div>
         )}
 
-        <div className="mt-10 flex justify-center sm:mt-12">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2d5a27]/10">
-            <Leaf className="w-5 h-5 text-[#2d5a27]" />
-          </div>
+        {/* ── Mobile view-all ── */}
+        <div className="mt-8 flex justify-center md:hidden">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#f97316]/25 px-5 py-2.5 text-sm font-medium text-[#f97316] transition-all hover:bg-[#f97316] hover:text-white"
+          >
+            View all <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </div>
     </section>

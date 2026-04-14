@@ -5,6 +5,7 @@ import { HeroSection } from "@/components/hero-section"
 import { RecentArticles } from "@/components/recent-articles"
 import { TechFarmBlogs } from "@/components/tech-farm-blogs"
 import { GovernmentSchemes } from "@/components/government-schemes"
+import { WriteCTA } from "@/components/write-cta"
 import { Newsletter } from "@/components/newsletter"
 import { Footer } from "@/components/footer"
 
@@ -17,6 +18,7 @@ export default function BlogPage() {
         <RecentArticles />
         <TechFarmBlogs />
         <GovernmentSchemes />
+        <WriteCTA />
         <Newsletter />
       </main>
       <Footer />
