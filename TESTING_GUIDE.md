@@ -1,37 +1,31 @@
 # Agrihar Blog — Website Testing Guide
 
 > Assign to: Student Tester  
-> Site: **http://localhost:3000** (frontend) · **http://localhost:5000** (backend)
+> Site: **https://agrihar-blog-frontend.vercel.app**
 
 ---
 
 ## Before You Start
 
-Make sure both servers are running:
-
-| Server   | Command                          | Port  |
-|----------|----------------------------------|-------|
-| Backend  | `npm start` (in backend folder)  | 5000  |
-| Frontend | `npm run dev` (in frontend folder)| 3000 |
-
-Open **http://localhost:3000** in your browser.
+No setup needed. The site is already live.  
+Open **https://agrihar-blog-frontend.vercel.app** in your browser and begin.
 
 ---
 
 ## Credentials
 
 ### Super Admin
-| Field    | Value               |
-|----------|---------------------|
-| Email    | `admin@agrihar.com` |
-| Password | `test123`           |
-| Login at | `/admin/login`      |
+| Field    | Value                                                          |
+|----------|----------------------------------------------------------------|
+| Email    | `admin@agrihar.com`                                           |
+| Password | `test123`                                                      |
+| Login at | https://agrihar-blog-frontend.vercel.app/admin/login          |
 
 ### Author (use any email — no password needed)
-| Field | Value              |
-|-------|--------------------|
-| Email | any valid email    |
-| Login at | `/author/login` |
+| Field    | Value                                                          |
+|----------|----------------------------------------------------------------|
+| Email    | any valid email (e.g. `tester@gmail.com`)                     |
+| Login at | https://agrihar-blog-frontend.vercel.app/author/login         |
 
 ---
 
@@ -39,12 +33,12 @@ Open **http://localhost:3000** in your browser.
 
 **Goal:** Verify the homepage and blog reading work correctly.
 
-1. Go to `http://localhost:3000`
+1. Go to https://agrihar-blog-frontend.vercel.app
 2. Check that the **Recent Articles** section loads blog cards
 3. Click any blog card → should open the full blog at `/blog/[slug]`
 4. Verify the blog shows: cover image, title, author name, date, content
 5. Click **Back** → returns to home page
-6. Click **View all** in the Recent Articles header → should open `http://localhost:3000/blog`
+6. Click **View all** in the Recent Articles header → should open https://agrihar-blog-frontend.vercel.app/blog
 7. On the `/blog` page, try clicking the category filter buttons (Recent Blogs / Tech Farming / Government Schemes) → list should update
 8. Click any article card from this page → should open correctly (no 404)
 
@@ -56,9 +50,9 @@ Open **http://localhost:3000** in your browser.
 
 **Goal:** Verify the author write → preview → submit flow.
 
-1. Go to `http://localhost:3000/author/login`
-2. Enter any email (e.g. `test@author.com`) and click **Send Access Link / Login**
-3. You should land on the **Author Dashboard** at `/author`
+1. Go to https://agrihar-blog-frontend.vercel.app/author/login
+2. Enter any email (e.g. `tester@gmail.com`) and click **Login**
+3. You should land on the **Author Dashboard**
 4. Click **Write New Blog**
 5. Fill in all fields:
    - Title: `Test Blog Post`
@@ -68,8 +62,8 @@ Open **http://localhost:3000** in your browser.
    - LinkedIn: `https://linkedin.com/in/test`
    - Cover Image: upload any image
    - Content: write at least 3–4 lines of text
-6. Click **Preview** → should navigate to `/author/preview` showing a styled blog preview
-7. Click **Back to editor** → **verify all filled fields are still present** (this is the key test)
+6. Click **Preview** → should navigate to the preview page showing a styled blog
+7. Click **Back to editor** → **verify all filled fields are still present** (key test)
 8. Make a small change (e.g. add a word to the title)
 9. Click **Submit for Review**
 10. Should redirect to author dashboard with a success message
@@ -82,17 +76,17 @@ Open **http://localhost:3000** in your browser.
 
 **Goal:** Verify the admin can view, preview, approve, and reject blogs.
 
-1. Go to `http://localhost:3000/admin/login`
+1. Go to https://agrihar-blog-frontend.vercel.app/admin/login
 2. Login with:
    - Email: `admin@agrihar.com`
    - Password: `test123`
-3. You should land on the **Admin Dashboard** at `/admin`
-4. Click **Moderation** (or go to `/admin/moderation`)
+3. You should land on the **Admin Dashboard**
+4. Go to https://agrihar-blog-frontend.vercel.app/admin/moderation
 5. Verify the blog submitted in Flow 2 appears in the **Pending List**
 6. Click **Full Preview →** next to the blog
-7. Should open `/admin/moderation/preview` showing the full blog with cover image, content, author info
+7. Should open the preview page showing the full blog with cover image, content, author info
 8. Verify the cover image is correct (not the body image)
-9. Click **Approve** → should show success and redirect back to `/admin/moderation`
+9. Click **Approve** → should show success and redirect back to moderation list
 10. Verify the approved blog is no longer in the pending list
 
 **Pass:** Blog appears in pending list. Full preview opens correctly. Approve works.
@@ -103,10 +97,10 @@ Open **http://localhost:3000** in your browser.
 
 **Goal:** Verify an approved blog shows up on the site.
 
-1. Go to `http://localhost:3000`
+1. Go to https://agrihar-blog-frontend.vercel.app
 2. Scroll to **Recent Articles** — the blog approved in Flow 3 should now appear
 3. Click it → should open the full blog page with no 404
-4. Go to `http://localhost:3000/blog` → blog should also appear here
+4. Go to https://agrihar-blog-frontend.vercel.app/blog → blog should also appear here
 
 **Pass:** Approved blog is visible publicly within one page refresh.
 
@@ -117,12 +111,12 @@ Open **http://localhost:3000** in your browser.
 **Goal:** Verify rejection flow with a message.
 
 1. Submit another blog as an author (repeat Flow 2 steps 1–9)
-2. Login as admin and go to `/admin/moderation`
+2. Login as admin and go to https://agrihar-blog-frontend.vercel.app/admin/moderation
 3. Click **Full Preview →** on the new blog
 4. Click **Reject** → a text box appears
 5. Leave the message empty and click **Confirm Reject** → should show an error (message required)
 6. Enter a rejection reason (e.g. `Content does not meet guidelines`) and click **Confirm Reject**
-7. Should show success and redirect to `/admin/moderation`
+7. Should show success and redirect to the moderation list
 8. Blog should no longer appear in the pending list
 
 **Pass:** Empty rejection is blocked. Rejection with message works.
