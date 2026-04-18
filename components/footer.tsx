@@ -11,17 +11,17 @@ const productLinks = [
 ]
 
 const companyLinks = [
-  { label: "About Us", href: "/about" },
-  { label: "Meet Our Team", href: "/team" },
-  { label: "Terms and Conditions", href: "/terms" },
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Other Policies", href: "/policies" }
+  { label: "About Us", href: "https://www.agrihar.com/about-us", external: true },
+  { label: "Meet Our Team", href: "https://www.agrihar.com/meet-our-team", external: true },
+  { label: "Terms and Conditions", href: "https://www.agrihar.com/legal/terms", external: true },
+  { label: "Privacy Policy", href: "https://www.agrihar.com/privacy-policy", external: true },
+  { label: "Other Policies", href: "https://www.agrihar.com/legal/other-policies", external: true }
 ]
 
 const supportLinks = [
-  { label: "FAQ's", href: "/faq" },
-  { label: "Report a bug", href: "/report-bug" },
-  { label: "Contact Us", href: "/contact" }
+  { label: "FAQ's", href: "https://www.agrihar.com/faq", external: true },
+  { label: "Report a bug", href: "https://www.agrihar.com/bug-report", external: true },
+  { label: "Contact Us", href: "https://www.agrihar.com/contact-us", external: true }
 ]
 
 export function Footer() {
@@ -52,7 +52,12 @@ export function Footer() {
             <ul className="space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-sm text-[#2d5a27] transition-colors hover:text-[#1e3d1a]">
+                  <Link
+                    href={link.href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noopener noreferrer" : undefined}
+                    className="text-sm text-[#2d5a27] transition-colors hover:text-[#1e3d1a]"
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -65,7 +70,12 @@ export function Footer() {
             <ul className="space-y-3">
               {supportLinks.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-sm text-[#2d5a27] transition-colors hover:text-[#1e3d1a]">
+                  <Link
+                    href={link.href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noopener noreferrer" : undefined}
+                    className="text-sm text-[#2d5a27] transition-colors hover:text-[#1e3d1a]"
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -111,7 +121,7 @@ export function Footer() {
 
             <div className="flex items-center gap-3">
               <a
-                href="https://linkedin.com/company/agrihar"
+                href="https://www.linkedin.com/company/agrihar/posts/?feedView=all"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2d5a27]/25 text-[#2d5a27] transition-colors hover:bg-[#2d5a27] hover:text-white"
@@ -119,7 +129,7 @@ export function Footer() {
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="https://facebook.com/agrihar"
+                href="https://www.facebook.com/people/Agriharcom/61565710463855/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2d5a27]/25 text-[#2d5a27] transition-colors hover:bg-[#2d5a27] hover:text-white"
@@ -127,7 +137,7 @@ export function Footer() {
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href="https://youtube.com/@agrihar"
+                href="https://www.youtube.com/@agriharoperations"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2d5a27]/25 text-[#2d5a27] transition-colors hover:bg-[#2d5a27] hover:text-white"
@@ -135,7 +145,7 @@ export function Footer() {
                 <Youtube className="w-5 h-5" />
               </a>
               <a
-                href="https://instagram.com/agrihar"
+                href="https://www.instagram.com/agrihar.india"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2d5a27]/25 text-[#2d5a27] transition-colors hover:bg-[#2d5a27] hover:text-white"
