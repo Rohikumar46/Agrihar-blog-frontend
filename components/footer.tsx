@@ -110,26 +110,34 @@ export function Footer() {
             </div>
 
             <div className="flex items-center gap-3">
-              <a 
-                href="#" 
+              <a
+                href="https://linkedin.com/company/agrihar"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2d5a27]/25 text-[#2d5a27] transition-colors hover:bg-[#2d5a27] hover:text-white"
               >
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a 
-                href="#" 
+              <a
+                href="https://facebook.com/agrihar"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2d5a27]/25 text-[#2d5a27] transition-colors hover:bg-[#2d5a27] hover:text-white"
               >
                 <Facebook className="w-5 h-5" />
               </a>
-              <a 
-                href="#" 
+              <a
+                href="https://youtube.com/@agrihar"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2d5a27]/25 text-[#2d5a27] transition-colors hover:bg-[#2d5a27] hover:text-white"
               >
                 <Youtube className="w-5 h-5" />
               </a>
-              <a 
-                href="#" 
+              <a
+                href="https://instagram.com/agrihar"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2d5a27]/25 text-[#2d5a27] transition-colors hover:bg-[#2d5a27] hover:text-white"
               >
                 <Instagram className="w-5 h-5" />
