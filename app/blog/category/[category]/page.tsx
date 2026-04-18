@@ -59,11 +59,33 @@ const categoryInfo: Record<string, {
     bgColor: "bg-[#2d5a27]/10",
     queryCategory: "workshops",
   },
+  "others": {
+    title: "Others",
+    description: "Articles that don't fit a specific category",
+    icon: <BookOpen className="w-6 h-6" />,
+    color: "#2d5a27",
+    bgColor: "bg-[#2d5a27]/10",
+    queryCategory: "others",
+  },
 }
 
 export default function CategoryPage() {
   const params = useParams()
   const categorySlug = params.category as string
+
+  useEffect(() => {
+    if (categorySlug === "workshops") {
+      window.location.replace("https://www.agrihar.com/workshops")
+    }
+  }, [categorySlug])
+
+  if (categorySlug === "workshops") {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white">
+        <p className="text-slate-500 text-sm">Redirecting to Agrihar Workshops…</p>
+      </div>
+    )
+  }
 
   const info = useMemo(() => {
     return (

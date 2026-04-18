@@ -143,7 +143,10 @@ export default function NewBlogPage() {
                 <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               </div>
               <p className="mt-1 text-xs text-slate-500">
-                Your blog will appear in the <span className="font-medium">{BLOG_CATEGORIES.find(c => c.value === category)?.label}</span> section.
+                {category === "others"
+                  ? <>Tagged as <span className="font-medium">Others</span> — will appear in the All Articles section.</>
+                  : <>Your blog will appear in the <span className="font-medium">{BLOG_CATEGORIES.find(c => c.value === category)?.label}</span> section.</>
+                }
               </p>
             </div>
 

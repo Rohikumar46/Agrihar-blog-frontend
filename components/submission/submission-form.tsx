@@ -92,11 +92,10 @@ export function SubmissionForm({ values, busy, onChange, onPreview, onSubmit }: 
           <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
         </div>
         <p className="text-xs text-slate-500">
-          Appears in the{" "}
-          <span className="font-medium text-slate-700">
-            {BLOG_CATEGORIES.find((c) => c.value === values.category)?.label}
-          </span>{" "}
-          section.
+          {values.category === "others"
+            ? <>Tagged as <span className="font-medium text-slate-700">Others</span> — will appear in the All Articles section.</>
+            : <>Appears in the{" "}<span className="font-medium text-slate-700">{BLOG_CATEGORIES.find((c) => c.value === values.category)?.label}</span>{" "}section.</>
+          }
         </p>
       </div>
 

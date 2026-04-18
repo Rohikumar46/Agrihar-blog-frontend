@@ -10,11 +10,45 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { clearStoredToken, getStoredToken } from "@/lib/auth"
 import { createBlog, deleteBlog, fetchBlogs, fetchMe, formatDate, type ApiBlog, updateBlog } from "@/lib/api"
+import Image from "next/image"
+
+const HERO_TEMPLATE = {
+  title: "How Agro Tourism is Transforming Rural India's Economy",
+  excerpt: "Discover how farm stays and agro-tourism experiences are creating new income streams for farmers across 12 states.",
+  category: "agro-tourism",
+  tags: "agro-tourism, rural-economy, farm-stays, india",
+  imageUrl: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1400&h=800&fit=crop",
+  content: `<h2>A New Chapter for Indian Agriculture</h2>
+<p>For generations, the Indian farmer has faced a single, unrelenting pressure: make the land pay. Monsoons, market prices, and middlemen have long dictated the rhythms of rural life. But across twelve states — from the terraced tea estates of Sikkim to the sunflower fields of Karnataka — a quiet revolution is underway. Agro tourism is turning farms into destinations, and farmers into hosts.</p>
+<p>The numbers tell a compelling story. According to the Ministry of Tourism's 2023 rural tourism survey, agro-tourism ventures registered a 38 percent year-on-year growth in visitor footfall, with Maharashtra alone hosting over 4.5 lakh tourists at farm-stay properties. Average supplementary income for participating households crossed ₹1.2 lakh per year — nearly doubling what a comparable rain-fed plot would earn in a single season.</p>
+
+<h2>What Agro Tourism Actually Looks Like</h2>
+<p>Strip away the brochure language and agro tourism is straightforward: city families pay to spend a weekend or a week doing what farm families do every day. They wake before sunrise to milk buffaloes, wade into paddy fields at transplanting time, press sugarcane through a wooden kolhu, or pick strawberries by the kilogram in Mahabaleshwar. The experience is the product.</p>
+<p>Ramesh Patil runs a 12-acre farm outside Pune that has welcomed visitors for the past six years. "In the beginning I was embarrassed," he admits. "I thought — why would anyone pay to do the work I am tired of doing?" The answer arrived with his first group: a family of four from Bengaluru who had never seen a paddy field. They left with muddy feet, two kilograms of fresh tomatoes, and a promise to return. They have come back every monsoon since.</p>
+
+<h2>Income Beyond the Harvest</h2>
+<p>The financial logic is simple but powerful. A kilogram of tomatoes sold wholesale fetches ₹8–12. Sold to a tourist who picks it themselves, experiences the farm, and eats a home-cooked meal, the same tomato anchors a ₹1,500-per-head day package. Suddenly, an acre of tomatoes is not just a commodity — it is an experience economy.</p>
+<p>Beyond direct earnings, agro tourism builds markets for value-added products. Farms that receive visitors consistently sell more pickles, cold-pressed oils, organic jaggery, and handloom goods than comparable farms without tourism operations. The guest becomes a brand ambassador, sharing photographs and recommendations that no advertising budget could buy.</p>
+
+<h2>Government Support and Certification</h2>
+<p>Recognising the sector's potential, several state governments have introduced dedicated agro-tourism policies. Maharashtra's Agro Tourism Development Corporation (ATDC) has certified more than 1,200 farms and trained over 3,000 farm hosts in hospitality, food safety, and digital marketing. Kerala's Responsible Tourism (RT) Mission has integrated agro-tourism nodes into its rural livelihood programme, ensuring that income reaches women's self-help groups as well as landowners.</p>
+<p>The central government's PRDP now includes a dedicated agro-tourism cluster component, providing ₹25–50 lakh in infrastructure grants to groups of five or more farms that form cooperative tourism circuits.</p>
+
+<h2>Challenges Ahead</h2>
+<p>The growth story is real, but it is not without friction. Connectivity remains the most cited barrier: farms in truly remote areas struggle to attract visitors who are unwilling to drive four hours on a kaccha road. Digital payment infrastructure, basic accommodation standards, and food-handling certification are inconsistently available.</p>
+<p>There is also the question of authenticity. As agro tourism scales, the risk of it becoming a theme-park version of farm life grows. The farms that succeed long-term are those where tourism is woven into real agricultural operations, not built on top of them as a performance.</p>
+
+<h2>The Road Forward</h2>
+<p>India has approximately 146 million farm holdings. Even if one percent of them developed a modest agro-tourism offering, that would represent 1.46 million new rural enterprises. Technology is a key enabler — platforms like Farmstay India and StayWithFarmers allow farmers to list properties, manage bookings, and receive digital payments.</p>
+<p>For Priya Mehta, who manages a lavender and herb farm in Himachal Pradesh's Kangra valley, the transformation has been personal as much as financial. "My children used to be embarrassed that we were farmers," she says. "Now they bring their college friends here for the weekend. The farm gave our family identity. Tourism gave it pride."</p>
+<p>That pride — quiet, rooted, earned — may be agro tourism's most important export of all.</p>`,
+}
 
 const BLOG_CATEGORIES = [
   { value: "recent-blogs", label: "Recent Blogs" },
   { value: "tech-farming", label: "Tech Farming" },
   { value: "government-schemes", label: "Government Schemes" },
+  { value: "others", label: "Others" },
 ]
 
 export default function AdminPage() {
@@ -57,6 +91,20 @@ export default function AdminPage() {
     setImageUrl("")
     setIsPublished(true)
     setEditingBlogId("")
+  }
+
+  function loadHeroTemplate() {
+    setEditingBlogId("")
+    setTitle(HERO_TEMPLATE.title)
+    setExcerpt(HERO_TEMPLATE.excerpt)
+    setCategory(HERO_TEMPLATE.category)
+    setTags(HERO_TEMPLATE.tags)
+    setImageUrl(HERO_TEMPLATE.imageUrl)
+    setContent(HERO_TEMPLATE.content)
+    setIsPublished(true)
+    setSubmitError("")
+    setSubmitSuccess("")
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
   async function loadBlogs(authToken = token) {
@@ -272,12 +320,12 @@ export default function AdminPage() {
               {submitSuccess && <p className="rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-700">{submitSuccess}</p>}
 
               <div className="flex gap-2">
-                <Button type="submit" className="w-full bg-[#2d5a27] hover:bg-[#1e3d1a]" disabled={submitting}>
+                <Button type="submit" className="flex-1 bg-[#2d5a27] hover:bg-[#1e3d1a]" disabled={submitting}>
                   {submitting ? (isEditing ? "Updating..." : "Publishing...") : isEditing ? "Update blog" : "Publish blog"}
                 </Button>
-                {isEditing && (
-                  <Button type="button" variant="outline" onClick={resetForm}>
-                    Cancel
+                {(isEditing || title) && (
+                  <Button type="button" variant="outline" onClick={resetForm} disabled={submitting}>
+                    {isEditing ? "Cancel" : "Clear"}
                   </Button>
                 )}
               </div>
@@ -286,12 +334,57 @@ export default function AdminPage() {
 
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
             <h2 className="text-lg font-semibold text-slate-900">Recent Posts</h2>
+
+            {/* ── Pinned hero card ── */}
+            <div className="mt-4 overflow-hidden rounded-xl border border-[#f97316]/40 bg-gradient-to-br from-[#fff8f3] to-[#fff3ea]">
+              <div className="flex items-center gap-2 border-b border-[#f97316]/20 px-3 py-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#f97316]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#f97316]">Pinned · Hero Section</span>
+              </div>
+              <div className="flex gap-3 p-3">
+                <div className="relative h-20 w-24 shrink-0 overflow-hidden rounded-lg">
+                  <Image
+                    src={HERO_TEMPLATE.imageUrl}
+                    alt={HERO_TEMPLATE.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex min-w-0 flex-1 flex-col justify-between">
+                  <div>
+                    <p className="text-sm font-semibold leading-snug text-slate-900 line-clamp-2">
+                      {HERO_TEMPLATE.title}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-slate-500">Priya Sharma · Agro Tourism</p>
+                  </div>
+                  <div className="mt-2 flex items-center gap-2">
+                    <Button
+                      type="button"
+                      size="sm"
+                      className="h-7 bg-[#2d5a27] px-3 text-xs hover:bg-[#1e3d1a]"
+                      onClick={loadHeroTemplate}
+                    >
+                      Load into Editor
+                    </Button>
+                    <Link
+                      href="/blog/how-agro-tourism-is-transforming-rural-indias-economy"
+                      target="_blank"
+                      className="text-xs font-medium text-[#f97316] hover:underline"
+                    >
+                      Preview →
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Regular posts ── */}
             {loadingBlogs ? (
               <p className="mt-4 text-sm text-slate-500">Loading posts...</p>
             ) : blogs.length === 0 ? (
               <p className="mt-4 text-sm text-slate-500">No posts found.</p>
             ) : (
-              <ul className="mt-4 space-y-3">
+              <ul className="mt-3 space-y-3">
                 {blogs.map((blog) => (
                   <li key={blog._id} className="rounded-xl border border-slate-200 p-3">
                     <div className="flex items-start justify-between gap-3">

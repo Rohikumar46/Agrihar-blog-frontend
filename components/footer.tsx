@@ -5,8 +5,8 @@ import Link from "next/link"
 import { Linkedin, Facebook, Youtube, Instagram } from "lucide-react"
 
 const productLinks = [
-  { label: "Workshops", href: "/workshops" },
-  { label: "Farm Stays", href: "/farm-stays" },
+  { label: "Workshops", href: "https://www.agrihar.com/workshops", external: true },
+  { label: "Farm Stays", href: "https://www.agrihar.com/retreats", external: true },
   { label: "Blog", href: "/blog" }
 ]
 
@@ -34,7 +34,12 @@ export function Footer() {
             <ul className="space-y-3">
               {productLinks.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-sm text-[#2d5a27] transition-colors hover:text-[#1e3d1a]">
+                  <Link
+                    href={link.href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noopener noreferrer" : undefined}
+                    className="text-sm text-[#2d5a27] transition-colors hover:text-[#1e3d1a]"
+                  >
                     {link.label}
                   </Link>
                 </li>

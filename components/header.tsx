@@ -8,9 +8,9 @@ import { Menu, X } from "lucide-react"
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Workshops", href: "/workshops" },
-  { label: "Retreats", href: "/retreats" },
-  { label: "Join Us", href: "/join-us" },
+  { label: "Workshops", href: "https://www.agrihar.com/workshops", external: true },
+  { label: "Retreats", href: "https://www.agrihar.com/retreats", external: true },
+  { label: "Join Us", href: "https://www.agrihar.com/join-us", external: true },
   { label: "Blog", href: "/blog" },
 ]
 
@@ -45,6 +45,8 @@ export function Header() {
                 <Link
                   key={link.label}
                   href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
                   className={
                     link.active
                       ? "border-b-2 border-[#2d5a27] pb-0.5 font-medium text-[#2d5a27]"
@@ -73,6 +75,8 @@ export function Header() {
                 <Link
                   key={link.label}
                   href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
                   onClick={() => setIsMenuOpen(false)}
                   className={`rounded-lg px-4 py-3 transition-colors ${
                     link.active

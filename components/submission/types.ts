@@ -16,6 +16,7 @@ export const BLOG_CATEGORIES = [
   { label: 'Recent Blogs',       value: 'recent-blogs' },
   { label: 'Tech Farms',         value: 'tech-farming' },
   { label: 'Government Schemes', value: 'government-schemes' },
+  { label: 'Others',             value: 'others' },
 ] as const;
 
 export const initialSubmissionState: SubmissionFormState = {

@@ -6,6 +6,7 @@ import { Calendar, Clock, ArrowUpRight } from "lucide-react"
 
 interface ArticleCardProps {
   slug: string
+  href?: string
   image: string
   category: string
   categoryColor?: string
@@ -19,6 +20,7 @@ interface ArticleCardProps {
 
 export function ArticleCard({
   slug,
+  href,
   image,
   category,
   categoryColor = "#f97316",
@@ -29,9 +31,14 @@ export function ArticleCard({
   badge,
   badgeColor = "#2d5a27",
 }: ArticleCardProps) {
+  const resolvedHref = href ?? `/blog/${slug}`
+  const isExternal = resolvedHref.startsWith("http")
+
   return (
     <Link
-      href={`/blog/${slug}`}
+      href={resolvedHref}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
       className="group flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_2px_12px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_40px_rgba(15,23,42,0.12)] hover:border-slate-200"
     >
       {/* ── Image ── */}

@@ -20,6 +20,7 @@ const allArticles = [
   },
   {
     slug: "rise-of-experiential-farm-stays-what-travelers-want-in-2026",
+    href: "https://www.agrihar.com/retreats",
     image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&h=200&fit=crop",
     category: "FARM STAYS",
     filterCategory: "Agro Tourism",
@@ -33,6 +34,7 @@ const allArticles = [
   // Workshops
   {
     slug: "5-workshops-that-changed-how-we-think-about-sustainable-farming",
+    href: "https://www.agrihar.com/workshops",
     image: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=400&h=200&fit=crop",
     category: "WORKSHOPS",
     filterCategory: "Workshops",

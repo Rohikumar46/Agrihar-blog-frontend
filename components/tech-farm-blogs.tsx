@@ -100,7 +100,9 @@ export function TechFarmBlogs() {
             </div>
           </div>
           <a
-            href="#"
+            href="https://www.agrihar.com/workshops"
+            target="_blank"
+            rel="noopener noreferrer"
             className="shrink-0 rounded-full bg-[#f97316] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[#ea580c] hover:shadow-md"
           >
             Explore Workshops

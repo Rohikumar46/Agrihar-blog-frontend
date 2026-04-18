@@ -11,7 +11,7 @@ const categories = [
   { name: "Agro Tourism", href: "/blog/category/agro-tourism" },
   { name: "Tech Farming", href: "/blog/category/tech-farming" },
   { name: "Government Schemes", href: "/blog/category/government-schemes" },
-  { name: "Workshops", href: "/blog/category/workshops" },
+  { name: "Workshops", href: "https://www.agrihar.com/workshops" },
 ]
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -142,6 +142,8 @@ export function HeroSection() {
                 <Link
                   key={cat.name}
                   href={cat.href}
+                  target={cat.href.startsWith("http") ? "_blank" : undefined}
+                  rel={cat.href.startsWith("http") ? "noopener noreferrer" : undefined}
                   className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
                     i === 0
                       ? "bg-[#f97316] text-white shadow-[0_4px_12px_rgba(249,115,22,0.35)] hover:bg-[#ea580c]"
