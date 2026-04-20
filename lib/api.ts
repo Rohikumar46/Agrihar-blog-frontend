@@ -373,7 +373,7 @@ export function toArticleCard(blog: ApiBlog) {
     category: formatCategory(blog.category),
     categoryColor: '#2d5a27',
     title: blog.title,
-    description: blog.excerpt || blog.content.slice(0, 120),
+    description: (blog.excerpt || blog.content.slice(0, 120)).replace(/^#{1,6}\s+/gm, '').trim(),
     date: formatDate(blog.createdAt),
     readTime: estimateReadTime(blog.content),
     badge: blog.tags?.[0] ? blog.tags[0].toUpperCase() : undefined,

@@ -183,13 +183,34 @@ export default function EditBlogPage() {
 
             <div>
               <label className="mb-1 block text-sm font-medium text-slate-700">Content *</label>
+              <div className="mb-1 flex flex-wrap gap-1.5 rounded-t-md border border-b-0 border-slate-200 bg-slate-50 px-2 py-1.5">
+                {[
+                  { label: "H1", insert: "# " },
+                  { label: "H2", insert: "## " },
+                  { label: "H3", insert: "### " },
+                  { label: "H4", insert: "#### " },
+                ].map(({ label, insert }) => (
+                  <button
+                    key={label}
+                    type="button"
+                    title={`Insert ${label} heading (on a new line)`}
+                    onClick={() => setContent((prev) => prev + (prev.endsWith("\n\n") || prev === "" ? "" : "\n\n") + insert)}
+                    className="rounded px-2 py-0.5 text-xs font-bold text-slate-600 hover:bg-white hover:text-[#2d5a27] border border-transparent hover:border-slate-200 transition-colors"
+                  >
+                    {label}
+                  </button>
+                ))}
+                <span className="ml-auto self-center text-[10px] text-slate-400">
+                  Use ## for headings, blank line between paragraphs
+                </span>
+              </div>
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Write your blog content here..."
+                placeholder={"## Introduction\n\nWrite your opening paragraph here...\n\n## Section Title\n\nYour section content goes here."}
                 rows={14}
                 required
-                className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-900 outline-none focus:border-[#2d5a27]"
+                className="w-full rounded-b-md rounded-t-none border border-slate-200 px-3 py-2 text-sm text-slate-900 outline-none focus:border-[#2d5a27] font-mono"
               />
             </div>
 

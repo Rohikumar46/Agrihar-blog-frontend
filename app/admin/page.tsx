@@ -18,30 +18,37 @@ const HERO_TEMPLATE = {
   category: "agro-tourism",
   tags: "agro-tourism, rural-economy, farm-stays, india",
   imageUrl: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1400&h=800&fit=crop",
-  content: `<h2>A New Chapter for Indian Agriculture</h2>
-<p>For generations, the Indian farmer has faced a single, unrelenting pressure: make the land pay. Monsoons, market prices, and middlemen have long dictated the rhythms of rural life. But across twelve states — from the terraced tea estates of Sikkim to the sunflower fields of Karnataka — a quiet revolution is underway. Agro tourism is turning farms into destinations, and farmers into hosts.</p>
-<p>The numbers tell a compelling story. According to the Ministry of Tourism's 2023 rural tourism survey, agro-tourism ventures registered a 38 percent year-on-year growth in visitor footfall, with Maharashtra alone hosting over 4.5 lakh tourists at farm-stay properties. Average supplementary income for participating households crossed ₹1.2 lakh per year — nearly doubling what a comparable rain-fed plot would earn in a single season.</p>
+  content: `<h2>What is Agro Tourism?</h2>
+<p>Agro tourism — also known as farm tourism or agricultural tourism — is a form of rural travel in which visitors stay on or visit working farms to experience agricultural life firsthand. It blends the principles of ecotourism with authentic rural living, giving travellers a chance to participate in seasonal farming activities, learn about sustainable food production, and immerse themselves in the culture and traditions of India's countryside.</p>
+<p>Unlike conventional tourism, agro tourism is not about sightseeing. It is about doing — milking buffaloes before sunrise, pressing sugarcane through a wooden kolhu, transplanting paddy in flooded fields, picking strawberries straight from the vine. The farm is not a backdrop; it is the entire experience.</p>
 
-<h2>What Agro Tourism Actually Looks Like</h2>
-<p>Strip away the brochure language and agro tourism is straightforward: city families pay to spend a weekend or a week doing what farm families do every day. They wake before sunrise to milk buffaloes, wade into paddy fields at transplanting time, press sugarcane through a wooden kolhu, or pick strawberries by the kilogram in Mahabaleshwar. The experience is the product.</p>
-<p>Ramesh Patil runs a 12-acre farm outside Pune that has welcomed visitors for the past six years. "In the beginning I was embarrassed," he admits. "I thought — why would anyone pay to do the work I am tired of doing?" The answer arrived with his first group: a family of four from Bengaluru who had never seen a paddy field. They left with muddy feet, two kilograms of fresh tomatoes, and a promise to return. They have come back every monsoon since.</p>
+<h2>Why Agro Tourism is Booming in India</h2>
+<p>India's agro tourism sector is growing at a remarkable pace. In 2024, the market was valued at USD 1,177.9 million and is projected to reach USD 4,911.9 million by 2033, expanding at a compound annual growth rate of 17.9 percent. Urban stress is pushing millions of city dwellers to seek slower, more grounded travel experiences. Growing awareness of organic food and sustainable living is making farm environments appealing destinations.</p>
+<p>Ministry of Tourism data shows agro-tourism ventures registered a 38 percent year-on-year growth in visitor footfall, with Maharashtra alone hosting over 4.5 lakh tourists at certified farm properties in a single year.</p>
 
-<h2>Income Beyond the Harvest</h2>
-<p>The financial logic is simple but powerful. A kilogram of tomatoes sold wholesale fetches ₹8–12. Sold to a tourist who picks it themselves, experiences the farm, and eats a home-cooked meal, the same tomato anchors a ₹1,500-per-head day package. Suddenly, an acre of tomatoes is not just a commodity — it is an experience economy.</p>
-<p>Beyond direct earnings, agro tourism builds markets for value-added products. Farms that receive visitors consistently sell more pickles, cold-pressed oils, organic jaggery, and handloom goods than comparable farms without tourism operations. The guest becomes a brand ambassador, sharing photographs and recommendations that no advertising budget could buy.</p>
+<h2>How Agro Tourism Transforms Farmers' Income</h2>
+<p>For most Indian farmers, income has always been tied directly to what the land produces. Agro tourism changes this equation by creating a revenue stream independent of crop output. A kilogram of tomatoes sold wholesale fetches Rs. 8 to Rs. 12. The same tomato, picked by a tourist and eaten as part of a home-cooked lunch, becomes part of a Rs. 1,500-per-head day package. Average supplementary income for households in certified programmes has crossed Rs. 1.2 lakh per year.</p>
+<p>Beyond direct guest income, farms hosting visitors consistently report higher sales of value-added products: cold-pressed oils, organic jaggery, handloom textiles, homemade pickles, and local honey. The visiting guest becomes a long-distance customer and brand ambassador.</p>
 
-<h2>Government Support and Certification</h2>
-<p>Recognising the sector's potential, several state governments have introduced dedicated agro-tourism policies. Maharashtra's Agro Tourism Development Corporation (ATDC) has certified more than 1,200 farms and trained over 3,000 farm hosts in hospitality, food safety, and digital marketing. Kerala's Responsible Tourism (RT) Mission has integrated agro-tourism nodes into its rural livelihood programme, ensuring that income reaches women's self-help groups as well as landowners.</p>
-<p>The central government's PRDP now includes a dedicated agro-tourism cluster component, providing ₹25–50 lakh in infrastructure grants to groups of five or more farms that form cooperative tourism circuits.</p>
+<h2>The Ripple Effect on Rural Economies</h2>
+<p>When a village becomes an agro-tourism destination, the entire local economy shifts. Roadside tea stalls see new customers. Local artisans find buyers at source. Women's self-help groups gain reliable markets for food products. Young people discover viable livelihoods close to home — as guides, cooks, drivers, and hospitality workers.</p>
+<p>In Wayanad, Kerala, tribal farming communities have used agro tourism to share traditional ecological knowledge — earning income while keeping ancient farming practices alive. In Maharashtra's Konkan belt, mango orchard owners now run seasonal pick-your-own experiences that draw urban families for entire weekends.</p>
 
-<h2>Challenges Ahead</h2>
-<p>The growth story is real, but it is not without friction. Connectivity remains the most cited barrier: farms in truly remote areas struggle to attract visitors who are unwilling to drive four hours on a kaccha road. Digital payment infrastructure, basic accommodation standards, and food-handling certification are inconsistently available.</p>
-<p>There is also the question of authenticity. As agro tourism scales, the risk of it becoming a theme-park version of farm life grows. The farms that succeed long-term are those where tourism is woven into real agricultural operations, not built on top of them as a performance.</p>
+<h2>Government Schemes Powering the Sector</h2>
+<p>Maharashtra's Agri Tourism Development Corporation (ATDC) has certified over 1,200 farms and trained more than 3,000 farm hosts in hospitality, food safety, and digital marketing. Kerala's Responsible Tourism Mission has embedded agro-tourism nodes within its rural livelihood framework, ensuring income flows to women's self-help groups and landless labourers, not just farm owners.</p>
+<p>At the national level, rural development programmes now include agro-tourism cluster components, providing infrastructure grants of Rs. 25 to Rs. 50 lakh to groups of five or more farms forming cooperative tourism circuits.</p>
 
-<h2>The Road Forward</h2>
-<p>India has approximately 146 million farm holdings. Even if one percent of them developed a modest agro-tourism offering, that would represent 1.46 million new rural enterprises. Technology is a key enabler — platforms like Farmstay India and StayWithFarmers allow farmers to list properties, manage bookings, and receive digital payments.</p>
-<p>For Priya Mehta, who manages a lavender and herb farm in Himachal Pradesh's Kangra valley, the transformation has been personal as much as financial. "My children used to be embarrassed that we were farmers," she says. "Now they bring their college friends here for the weekend. The farm gave our family identity. Tourism gave it pride."</p>
-<p>That pride — quiet, rooted, earned — may be agro tourism's most important export of all.</p>`,
+<h2>Technology Bringing Farms to Travellers</h2>
+<p>Platforms such as Farmstay India and StayWithFarmers allow small, remote farms to list offerings, manage bookings, and accept digital payments without a dedicated hospitality team. Social media has proven particularly powerful — a well-composed photograph of children feeding goats can reach tens of thousands of urban users organically within hours.</p>
+<p>The infrastructure powering PM-KISAN direct benefit transfers — Aadhaar-linked bank accounts, mobile payment interfaces, and rural broadband expansion — has also made it easier for farmers to receive advance bookings and digital payments directly, improving margins.</p>
+
+<h2>Challenges the Sector Must Overcome</h2>
+<p>Connectivity is the most fundamental barrier: farms in genuinely remote locations struggle to attract visitors unable to navigate poor roads. Basic accommodation infrastructure — clean toilets, safe drinking water, reliable electricity — is still inconsistent across many properties. Seasonality creates structural tension, as India's peak tourism window coincides with the rabi crop season when farm labour demand is highest.</p>
+<p>Authenticity is the sector's most delicate asset. Visitors seeking genuine rural connection recognise quickly when an experience has been staged. The farms that build long-term reputations are those that integrate tourism into actual agricultural operations rather than creating a parallel performance.</p>
+
+<h2>The Future of Agro Tourism in India</h2>
+<p>India has approximately 146 million farm holdings. If even half a percent developed a functioning agro-tourism offering, that would represent over 700,000 new rural enterprises — generating income, preserving agricultural knowledge, and creating employment in some of the country's most economically vulnerable communities.</p>
+<p>Agro tourism is not a niche. It is not a trend. It is one of the most structurally important economic transformations available to rural India — and it is already underway, one farm stay at a time.</p>`,
 }
 
 const BLOG_CATEGORIES = [
@@ -307,14 +314,37 @@ export default function AdminPage() {
                 />
                 Publish immediately
               </label>
-              <textarea
-                value={content}
-                onChange={(event) => setContent(event.target.value)}
-                required
-                rows={8}
-                placeholder="Write article content (HTML supported)."
-                className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-900 outline-none focus:border-[#2d5a27]"
-              />
+              <div>
+                <div className="flex flex-wrap gap-1.5 rounded-t-md border border-b-0 border-slate-200 bg-slate-50 px-2 py-1.5">
+                  {[
+                    { label: "H1", insert: "# " },
+                    { label: "H2", insert: "## " },
+                    { label: "H3", insert: "### " },
+                    { label: "H4", insert: "#### " },
+                  ].map(({ label, insert }) => (
+                    <button
+                      key={label}
+                      type="button"
+                      title={`Insert ${label} heading`}
+                      onClick={() => setContent((prev) => prev + (prev.endsWith("\n\n") || prev === "" ? "" : "\n\n") + insert)}
+                      className="rounded px-2 py-0.5 text-xs font-bold text-slate-600 hover:bg-white hover:text-[#2d5a27] border border-transparent hover:border-slate-200 transition-colors"
+                    >
+                      {label}
+                    </button>
+                  ))}
+                  <span className="ml-auto self-center text-[10px] text-slate-400">
+                    Use ## for headings, blank line between paragraphs
+                  </span>
+                </div>
+                <textarea
+                  value={content}
+                  onChange={(event) => setContent(event.target.value)}
+                  required
+                  rows={10}
+                  placeholder={"## Introduction\n\nWrite your opening paragraph here...\n\n## Section Title\n\nYour section content goes here."}
+                  className="w-full rounded-b-md rounded-t-none border border-slate-200 px-3 py-2 text-sm text-slate-900 outline-none focus:border-[#2d5a27] font-mono"
+                />
+              </div>
 
               {submitError && <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{submitError}</p>}
               {submitSuccess && <p className="rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-700">{submitSuccess}</p>}
